@@ -1,0 +1,133 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/main/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "remark42"
+name = "Remark42"
+description.en = "Self-hosted comment system to embed on any website"
+description.fr = "Système de commentaires auto-hébergé à intégrer à n'importe quel site"
+
+version = "1.17.1~ynh1"
+
+maintainers = ["quartztester"]
+
+[upstream]
+license = "MIT"
+website = "https://remark42.com"
+demo = "https://remark42.com/demo/"
+admindoc = "https://remark42.com/docs/"
+code = "https://github.com/umputun/remark42"
+cpe = "cpe:2.3:a:remark42:remark42"
+fund = "https://opencollective.com/remark42"
+
+[integration]
+yunohost = ">= 12.1.17"
+helpers_version = "2.1"
+architectures = ["amd64", "i386", "arm64"]
+multi_instance = true
+
+ldap = false
+sso = false
+
+disk = "50M"
+ram.build = "50M"
+ram.runtime = "100M"
+
+[install]
+    [install.domain]
+    # this is a generic question - ask strings are automatically handled by YunoHost's core
+    type = "domain"
+
+    [install.path]
+    # Remark42's frontend hardcodes /api/v1 URLs: it must live at the root of
+    # its (sub)domain. The question is kept hidden and locked to "/".
+    type = "path"
+    default = "/"
+    ask.en = "Installation path (Remark42 requires the root of the domain)"
+    help.en = "Remark42 embeds a comment widget on external sites and its UI hardcodes absolute /api/v1 paths, so it can only be installed at the root of a (sub)domain."
+
+    [install.init_main_permission]
+    # The comment widget must be reachable anonymously from the sites embedding
+    # it, so the app is public by default. Commenting still requires logging in
+    # on remark42, and all admin actions are JWT-gated server-side.
+    type = "group"
+    default = "visitors"
+
+    [install.admin]
+    # this is a generic question - ask strings are automatically handled by YunoHost's core
+    type = "user"
+
+    [install.mail_from]
+    ask.en = "From address for comment/verification emails (leave empty to use the admin's email)"
+    help.en = "Use an address on a domain with working SPF/DKIM/DMARC (the box's mail), otherwise magic-link emails may land in spam. The address must accept mail so you can receive login links."
+    type = "string"
+    default = ""
+    optional = true
+
+    [install.auth_anon]
+    ask.en = "Allow anonymous (nickname-only) commenting"
+    help.en = "Visitors can comment with just a nickname, without any account. Disable to require login via email link or an OAuth provider."
+    type = "select"
+    choices = [ "yes", "no" ]
+    default = "yes"
+
+    [install.github_cid]
+    optional = true
+    ask.en = "Optional GitHub OAuth client ID (leave empty to disable)"
+    type = "string"
+    default = ""
+
+    [install.github_csec]
+    optional = true
+    ask.en = "Optional GitHub OAuth client secret"
+    type = "string"
+    default = ""
+
+    [install.google_cid]
+    optional = true
+    ask.en = "Optional Google OAuth client ID (leave empty to disable)"
+    type = "string"
+    default = ""
+
+    [install.google_csec]
+    optional = true
+    ask.en = "Optional Google OAuth client secret"
+    type = "string"
+    default = ""
+
+[resources]
+    [resources.sources]
+
+    [resources.sources.main]
+    in_subdir = false
+
+    autoupdate.strategy = "latest_github_release"
+
+    [resources.sources.main.autoupdate.asset]
+    amd64 = "^remark42\\.linux-amd64\\.tar\\.gz$"
+    i386 = "^remark42\\.linux-386\\.tar\\.gz$"
+    arm64 = "^remark42\\.linux-arm64\\.tar\\.gz$"
+
+    [resources.sources.main.amd64]
+    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-amd64.tar.gz"
+    sha256 = "434e64fc0903d028e8506c4047e99260446d6a51573c8b2dc2492e43558519d4"
+
+    [resources.sources.main.i386]
+    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-386.tar.gz"
+    sha256 = "662d5e282d622ae5125625f5c9d105f313006867fb350ccad5f881123ad87498"
+
+    [resources.sources.main.arm64]
+    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-arm64.tar.gz"
+    sha256 = "214c08edc22ca2c68ba3c379016c05f0fea2c116a307fea8170273b2986bf840"
+
+    [resources.system_user]
+    allow_email = true
+
+    [resources.install_dir]
+
+    [resources.data_dir]
+
+    [resources.permissions]
+    main.url = "/"
+
+    [resources.ports]

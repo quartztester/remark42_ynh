@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+source ../settings/scripts/_common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+# RESTORE THE APP MAIN DIR
+#=================================================
+ynh_script_progression "Restoring the app main directory..."
+
+# The binary is not archived (see backup script): redeploy from manifest sources
+ynh_setup_source --dest_dir="$install_dir" --full_replace
+mv "$install_dir"/remark42.linux-* "$install_dir/remark42"
+chmod +x "$install_dir/remark42"
+chown -R "$app:$app" "$install_dir"
+
+#=================================================
+# RESTORE THE DATA DIRECTORY
+#=================================================
+ynh_script_progression "Restoring the data directory..."
+
+ynh_restore "$data_dir"
+prepare_data_dirs
+
+#=================================================
+# RESTORE SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Restoring system configurations related to $app..."
+
+# Re-render env from settings (the archived file may belong to another
+# domain; settings are the single source of truth for secret/admin/oauth).
+ynh_app_setting_set_default --key=auth_anon --value="yes"
+ynh_app_setting_set_default --key=github_cid --value=""
+ynh_app_setting_set_default --key=github_csec --value=""
+ynh_app_setting_set_default --key=google_cid --value=""
+ynh_app_setting_set_default --key=google_csec --value=""
+compute_admin_settings
+compute_mail_settings
+render_env_file
+
+ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
+ynh_restore "/etc/systemd/system/$app.service"
+systemctl enable "$app.service" --quiet
+ynh_restore "/etc/logrotate.d/$app"
+
+yunohost service add "$app" --description="Remark42 comment system" --log="/var/log/$app/$app.log"
+
+#=================================================
+# RELOAD NGINX AND START THE APP SERVICE
+#=================================================
+ynh_script_progression "Reloading NGINX web server and $app's service..."
+
+ynh_systemctl --service="$app" --action="start" --wait_until="activate http rest server" --log_path="/var/log/$app/$app.log"
+ynh_systemctl --service=nginx --action=reload
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Restoration completed for $app"

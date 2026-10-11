@@ -1,0 +1,81 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+if [ "$path" != "/" ]; then
+    ynh_die "Remark42 can only run at the root of a domain; this instance is installed on $domain$path which is unsupported."
+fi
+
+#=================================================
+# STOP SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Stopping $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="stop"
+
+#=================================================
+# ENSURE DOWNWARD COMPATIBILITY
+#=================================================
+ynh_script_progression "Ensuring downward compatibility..."
+
+secret=$(ynh_app_setting_get --key=secret)
+if [ -z "$secret" ]; then
+    secret=$(ynh_string_random --length=64)
+    ynh_app_setting_set --key=secret --value="$secret"
+fi
+
+ynh_app_setting_set_default --key=auth_anon --value="yes"
+ynh_app_setting_set_default --key=github_cid --value=""
+ynh_app_setting_set_default --key=github_csec --value=""
+ynh_app_setting_set_default --key=google_cid --value=""
+ynh_app_setting_set_default --key=google_csec --value=""
+
+compute_admin_settings
+compute_mail_settings
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Upgrading source files..."
+
+ynh_setup_source --dest_dir="$install_dir" --full_replace
+mv "$install_dir"/remark42.linux-* "$install_dir/remark42"
+chmod +x "$install_dir/remark42"
+chown -R "$app:$app" "$install_dir"
+
+prepare_data_dirs
+
+#=================================================
+# UPDATE CONFIG FILES
+#=================================================
+ynh_script_progression "Updating $app's configuration files..."
+
+render_env_file
+
+#=================================================
+# REAPPLY SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Upgrading system configurations related to $app..."
+
+ynh_config_add_nginx
+ynh_config_add_systemd
+
+yunohost service add "$app" --description="Remark42 comment system" --log="/var/log/$app/$app.log"
+
+ynh_config_add_logrotate
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="start" --wait_until="activate http rest server" --log_path="/var/log/$app/$app.log"
+
+ynh_local_curl "/ping"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Upgrade of $app completed"

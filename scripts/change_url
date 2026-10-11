@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+# Remark42 embeds absolute /api/v1 URLs, so only domain changes are supported
+# (path must stay "/").
+if [ "$path" != "/" ]; then
+    ynh_die "Remark42 can only run at the root of a domain."
+fi
+
+ynh_script_progression "Stopping $app's systemd service..."
+ynh_systemctl --service="$app" --action="stop"
+
+ynh_script_progression "Updating NGINX web server configuration..."
+ynh_config_change_url_nginx
+
+ynh_script_progression "Updating $app's configuration files..."
+compute_admin_settings
+compute_mail_settings
+render_env_file
+
+ynh_script_progression "Starting $app's systemd service..."
+ynh_systemctl --service="$app" --action="start" --wait_until="activate http rest server" --log_path="/var/log/$app/$app.log"
+
+ynh_script_progression "Change of URL completed for $app"

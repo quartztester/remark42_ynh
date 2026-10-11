@@ -1,0 +1,19 @@
+#!/bin/bash
+# The config panel questions bind to app settings; after any apply we must
+# re-render /etc/$app/env from those settings (the panel restarts $app via
+# its `services` list).
+
+source /usr/share/yunohost/helpers
+source _common.sh
+
+ynh_abort_if_errors
+
+ynh_app_config_apply() {
+    _ynh_app_config_apply
+
+    compute_admin_settings
+    compute_mail_settings
+    render_env_file
+}
+
+ynh_app_config_run "$1"

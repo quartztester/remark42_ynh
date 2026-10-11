@@ -1,0 +1,82 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+# The remark42 widget/API must be reachable by anonymous visitors of the
+# sites embedding it, and the app only works at the root of its domain.
+if [ "$path" != "/" ]; then
+    ynh_die "Remark42's frontend hardcodes absolute /api/v1 paths: it can only be installed at the root of a domain (e.g. comments.example.com), not in a sub-path."
+fi
+
+#=================================================
+# INITIALIZE AND STORE SETTINGS
+#=================================================
+ynh_script_progression "Initializing settings..."
+
+# Single source of truth for the JWT signing key; never regenerated later
+secret=$(ynh_app_setting_get --key=secret)
+if [ -z "$secret" ]; then
+    secret=$(ynh_string_random --length=64)
+    ynh_app_setting_set --key=secret --value="$secret"
+fi
+
+ynh_app_setting_set_default --key=auth_anon --value="yes"
+ynh_app_setting_set_default --key=github_cid --value=""
+ynh_app_setting_set_default --key=github_csec --value=""
+ynh_app_setting_set_default --key=google_cid --value=""
+ynh_app_setting_set_default --key=google_csec --value=""
+
+compute_admin_settings
+compute_mail_settings
+ynh_app_setting_set --key=admin_email --value="$admin_email"
+ynh_app_setting_set --key=admin_id --value="$admin_id"
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Setting up source files..."
+
+ynh_setup_source --dest_dir="$install_dir"
+# Upstream tarball ships the binary as remark42.linux-<arch>
+mv "$install_dir"/remark42.linux-* "$install_dir/remark42"
+chmod +x "$install_dir/remark42"
+chown -R "$app:$app" "$install_dir"
+
+prepare_data_dirs
+
+#=================================================
+# APP CONFIGURATION
+#=================================================
+ynh_script_progression "Adding $app's configuration files..."
+
+render_env_file
+
+#=================================================
+# SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Adding system configurations related to $app..."
+
+ynh_config_add_nginx
+ynh_config_add_systemd
+
+yunohost service add "$app" --description="Remark42 comment system" --log="/var/log/$app/$app.log"
+
+ynh_config_add_logrotate
+
+#=================================================
+# START SYSTEMD SERVICE
+#=================================================
+ynh_script_progression "Starting $app's systemd service..."
+
+ynh_systemctl --service="$app" --action="start" --wait_until="activate http rest server" --log_path="/var/log/$app/$app.log"
+
+ynh_local_curl "/ping"
+ynh_local_curl "/web/iframe.html"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
+
+ynh_script_progression "Installation of $app completed"
+ynh_script_progression "Admin access: log in at https://$domain/ with the 'Email' provider using $admin_email — a magic link is sent to that address and admin rights are already granted. SMTP goes through YunoHost's local postfix; if you have not configured outbound mail for $domain yet, run 'yunohost tools postinstall' first."

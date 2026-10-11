@@ -1,0 +1,39 @@
+# Remark42 environment - managed by YunoHost, edit via the app config panel when possible
+REMARK_URL=https://__DOMAIN__
+SECRET=__SECRET__
+REMARK_PORT=__PORT__
+REMARK_ADDRESS=127.0.0.1
+
+# Storage (bolt DB + files live in the YunoHost data dir)
+STORE_BOLT_PATH=__DATA_DIR__
+BACKUP_PATH=__DATA_DIR__/backup
+AVATAR_FS_PATH=__DATA_DIR__/avatars
+IMAGE_FS_PATH=__DATA_DIR__/pictures
+IMAGE_FS_STAGING=__DATA_DIR__/pictures.staging
+
+# nginx is the only client: trust its forwarding headers
+TRUSTED_PROXY=127.0.0.1
+
+# Authentication
+AUTH_ANON=__AUTH_ANON_VALUE__
+AUTH_EMAIL_ENABLE=true
+AUTH_EMAIL_FROM=__MAIL_FROM__
+NOTIFY_EMAIL_FROM=__MAIL_FROM__
+SMTP_HOST=localhost
+SMTP_PORT=25
+SMTP_USERNAME=__APP__
+SMTP_PASSWORD=__MAIL_PWD__
+SMTP_STARTTLS=true
+SMTP_INSECURE_SKIP_VERIFY=true
+
+# Admin: the YunoHost admin account logs in with an email magic link and
+# gets admin rights because its user id is pre-registered here.
+ADMIN_SHARED_EMAIL=__ADMIN_EMAIL__
+ADMIN_SHARED_ID=__ADMIN_ID__
+NOTIFY_ADMINS=email
+
+# Optional OAuth providers (lines removed at render time when unset)
+AUTH_GITHUB_CID=__GITHUB_CID__
+AUTH_GITHUB_CSEC=__GITHUB_CSEC__
+AUTH_GOOGLE_CID=__GOOGLE_CID__
+AUTH_GOOGLE_CSEC=__GOOGLE_CSEC__

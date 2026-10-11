@@ -1,0 +1,36 @@
+#:schema https://github.com/YunoHost/apps/raw/main/schemas/config_panel.v1.schema.json
+
+version = "1.0"
+
+[main]
+name.en = "Remark42"
+services = ["__APP__"]
+
+    [main.access]
+    name.en = "Login methods"
+
+        [main.access.auth_anon]
+        ask.en = "Allow anonymous (nickname-only) commenting"
+        type = "select"
+        choices = [ "yes", "no" ]
+        bind = "settings"
+
+        [main.access.github_cid]
+        ask.en = "GitHub OAuth client ID (empty to disable)"
+        type = "string"
+        bind = "settings"
+
+        [main.access.github_csec]
+        ask.en = "GitHub OAuth client secret"
+        type = "string"
+        bind = "settings"
+
+        [main.access.google_cid]
+        ask.en = "Google OAuth client ID (empty to disable)"
+        type = "string"
+        bind = "settings"
+
+        [main.access.google_csec]
+        ask.en = "Google OAuth client secret"
+        type = "string"
+        bind = "settings"
