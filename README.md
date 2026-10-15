@@ -4,7 +4,7 @@ It shall NOT be edited by hand.
 -->
 
 <h1>
-  <img src="https://raw.githubusercontent.com/YunoHost/apps/main/logos/remark42.png" width="32px" alt="Logo of Remark42">
+  <img src="logos/remark42.png" width="32px" alt="Logo of Remark42">
   Remark42, packaged for YunoHost
 </h1>
 
@@ -12,12 +12,16 @@ Self-hosted comment system to embed on any website
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://remark42.com)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://remark42.com/demo/)
-[![Version: 1.17.1~ynh1](https://img.shields.io/badge/Version-1.17.1~ynh1-rgb(18,138,11)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/remark42/)
+[![Version: 1.17.1~ynh1](https://img.shields.io/badge/Version-1.17.1~ynh1-rgb%2818,138,11%29?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/remark42/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/remark42"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
 <a href="https://github.com/YunoHost-Apps/remark42_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
 </div>
+
+## Screenshots
+
+![remark42 — remark42](./doc/screenshots/remark42.png)
 
 ## 📦 Developer info
 

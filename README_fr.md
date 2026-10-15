@@ -1,4 +1,7 @@
-# Remark42 pour YunoHost
+<h1>
+  <img src="logos/remark42.png" width="48" alt="remark42 logo">
+  Remark42 pour YunoHost
+</h1>
 
 Remark42 est un système de commentaires auto-hébergé, léger et sans dépendance externe, à intégrer dans vos propres sites.
 
@@ -14,3 +17,8 @@ Remark42 est un système de commentaires auto-hébergé, léger et sans dépenda
 
 - Projet amont : <https://github.com/umputun/remark42>
 - Paquet YunoHost : <https://github.com/quartztester/remark42_ynh>
+
+## Screenshots
+
+![remark42 — remark42](./doc/screenshots/remark42.png)
+
