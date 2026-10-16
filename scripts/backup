@@ -1,6 +1,11 @@
 #!/bin/bash
 
 # Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
+
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
@@ -22,5 +27,9 @@ ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf"
 ynh_backup "/etc/systemd/system/$app.service"
 ynh_backup "/etc/logrotate.d/$app"
 ynh_backup "/etc/$app/env"
+
+#=================================================
+# END OF SCRIPT
+#=================================================
 
 ynh_print_info "Backup script completed for $app. (YunoHost will then actually copy those files to the archive)."

@@ -1,7 +1,15 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
+
+#=================================================
+# CHECK INSTALL LOCATION
+#=================================================
 
 # The remark42 widget/API must be reachable by anonymous visitors of the
 # sites embedding it, and the app only works at the root of its domain.

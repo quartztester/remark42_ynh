@@ -3,10 +3,18 @@
 # re-render /etc/$app/env from those settings (the panel restarts $app via
 # its `services` list).
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source /usr/share/yunohost/helpers
 source _common.sh
 
 ynh_abort_if_errors
+
+#=================================================
+# APPLY NEW SETTINGS
+#=================================================
 
 ynh_app_config_apply() {
     _ynh_app_config_apply
@@ -15,5 +23,9 @@ ynh_app_config_apply() {
     compute_mail_settings
     render_env_file
 }
+
+#=================================================
+# END OF SCRIPT
+#=================================================
 
 ynh_app_config_run "$1"
