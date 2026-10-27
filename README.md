@@ -12,12 +12,8 @@ Self-hosted comment system to embed on any website
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://remark42.com)
 [![App Demo](https://img.shields.io/badge/App_Demo-blue?style=for-the-badge)](https://remark42.com/demo/)
-[![Version: 1.17.1~ynh1](https://img.shields.io/badge/Version-1.17.1~ynh1-rgb%2818,138,11%29?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/remark42/)
+![Version: 1.17.1~ynh1](https://img.shields.io/badge/Version-1.17.1~ynh1-rgb%2818,138,11%29?style=for-the-badge)
 
-<div align="center">
-<a href="https://apps.yunohost.org/app/remark42"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
-<a href="https://github.com/YunoHost-Apps/remark42_ynh/issues"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_report_an_issue.svg"/></a>
-</div>
 
 ## Screenshots
 
@@ -25,19 +21,15 @@ Self-hosted comment system to embed on any website
 
 ## 📦 Developer info
 
-[![Automatic tests level](https://apps.yunohost.org/badge/cilevel/remark42)](https://ci-apps.yunohost.org/ci/apps/remark42/)
 
 🛠️ Upstream Remark42 repository: <https://github.com/umputun/remark42>
 
-Pull request are welcome and should target the [`testing` branch](https://github.com/YunoHost-Apps/remark42_ynh/tree/testing).
 
 The `testing` branch can be tested using:
 ```
 # fresh install:
-sudo yunohost app install https://github.com/YunoHost-Apps/remark42_ynh/tree/testing
 
 # upgrade an existing install:
-sudo yunohost app upgrade remark42 -u https://github.com/YunoHost-Apps/remark42_ynh/tree/testing
 ```
 
 You can also switch to the testing branch to update from testing by default (as same as for APT when you chose to use a testing repos) with this command:
