@@ -26,3 +26,15 @@ Embed snippet for your site (replace the URL):
 ```
 
 Config lives in `/etc/remark42/env` (managed — regenerate it through the config panel rather than editing by hand). Data: `/home/yunohost.app/remark42`. Logs: `/var/log/remark42/`.
+
+### Placement settings (site / remark_url)
+
+`SITE` (remark42's comment namespace, also the Bolt DB filename) and `REMARK_URL` (absolute URL used in emails/OAuth links) render from the app settings `site` and `remark_url`. Defaults: `site` = install domain, `remark_url` = `https://<domain><path>`. For a same-origin embedding behind another site (e.g. a blog proxying `/comments` to this app), override both:
+
+```bash
+yunohost app setting remark42 site -v blog.example.org
+yunohost app setting remark42 remark_url -v https://blog.example.org/comments
+yunohost app upgrade remark42 -u <repo> -F   # re-renders the env
+```
+
+Never edit `/etc/remark42/env` by hand — the next upgrade re-renders it from settings and the manual value is only kept as a `.backup` copy.

@@ -1,5 +1,6 @@
 # Remark42 environment - managed by YunoHost, edit via the app config panel when possible
-REMARK_URL=https://__DOMAIN__
+REMARK_URL=__REMARK_URL__
+SITE=__SITE__
 SECRET=__SECRET__
 REMARK_PORT=__PORT__
 REMARK_ADDRESS=127.0.0.1

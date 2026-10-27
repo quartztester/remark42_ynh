@@ -4,6 +4,19 @@
 # COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
 
+# Placement settings: remark42 namespaces all data under SITE and builds
+# absolute links from REMARK_URL. Defaults fit a standalone install
+# (site = install domain, served at https://<domain><path>); a same-origin
+# embedding behind another site (e.g. a blog serving /comments) overrides
+# both via app settings. These MUST be settings, not live env edits —
+# every upgrade re-renders /etc/$app/env from this template.
+ensure_placement_settings() {
+    if [ -n "${domain:-}" ]; then
+        ynh_app_setting_set_default --key=site --value="$domain"
+        ynh_app_setting_set_default --key=remark_url --value="https://${domain}${path:-/}"
+    fi
+}
+
 render_env_file() {
     # Re-render /etc/$app/env from settings, then drop lines whose value is
     # empty so that unset options don't override remark42's own defaults
@@ -11,6 +24,7 @@ render_env_file() {
     auth_anon_value="false"
     [ "${auth_anon:-no}" = "yes" ] && auth_anon_value="true"
 
+    ensure_placement_settings
     mkdir -p "/etc/$app"
     ynh_config_add --template="env" --destination="/etc/$app/env"
     sed -i -E '/^[A-Z0-9_]+=$/d' "/etc/$app/env"
