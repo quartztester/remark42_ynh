@@ -11,8 +11,7 @@ source /usr/share/yunohost/helpers
 # CHECK INSTALL LOCATION
 #=================================================
 
-# Remark42 embeds absolute /api/v1 URLs, so only domain changes are supported
-# (path must stay "/").
+# Remark42 embeds absolute /api/v1 URLs, so only domain changes are supported (path must stay "/").
 if [ "$path" != "/" ]; then
     ynh_die "Remark42 can only run at the root of a domain."
 fi

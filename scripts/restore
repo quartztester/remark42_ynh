@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
-
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
@@ -15,7 +13,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Restoring the app main directory..."
 
-# The binary is not archived (see backup script): redeploy from manifest sources
+# Binary is not archived (see backup): redeploy from manifest sources
 ynh_setup_source --dest_dir="$install_dir" --full_replace
 mv "$install_dir"/remark42.linux-* "$install_dir/remark42"
 chmod +x "$install_dir/remark42"
@@ -34,8 +32,7 @@ prepare_data_dirs
 #=================================================
 ynh_script_progression "Restoring system configurations related to $app..."
 
-# Re-render env from settings (the archived file may belong to another
-# domain; settings are the single source of truth for secret/admin/oauth).
+# Re-render env from settings (archived file may belong to another domain; settings own secret/admin/oauth).
 ynh_app_setting_set_default --key=auth_anon --value="yes"
 ynh_app_setting_set_default --key=github_cid --value=""
 ynh_app_setting_set_default --key=github_csec --value=""

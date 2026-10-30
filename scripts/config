@@ -1,7 +1,5 @@
 #!/bin/bash
-# The config panel questions bind to app settings; after any apply we must
-# re-render /etc/$app/env from those settings (the panel restarts $app via
-# its `services` list).
+# Panel questions bind to app settings; re-render /etc/$app/env after apply (the panel restarts $app via its `services` list).
 
 #=================================================
 # IMPORT GENERIC HELPERS

@@ -11,8 +11,7 @@ source /usr/share/yunohost/helpers
 # CHECK INSTALL LOCATION
 #=================================================
 
-# The remark42 widget/API must be reachable by anonymous visitors of the
-# sites embedding it, and the app only works at the root of its domain.
+# The widget/API must be reachable by anonymous visitors, and the app only works at its domain root.
 if [ "$path" != "/" ]; then
     ynh_die "Remark42's frontend hardcodes absolute /api/v1 paths: it can only be installed at the root of a domain (e.g. comments.example.com), not in a sub-path."
 fi
@@ -22,7 +21,7 @@ fi
 #=================================================
 ynh_script_progression "Initializing settings..."
 
-# Single source of truth for the JWT signing key; never regenerated later
+# Single source of truth for the JWT signing key; never regenerated later.
 secret=$(ynh_app_setting_get --key=secret)
 if [ -z "$secret" ]; then
     secret=$(ynh_string_random --length=64)

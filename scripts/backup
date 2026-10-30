@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
-
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
@@ -16,8 +14,7 @@ ynh_print_info "Declaring files to be backed up..."
 # BACKUP THE APP MAIN DIR AND DATA
 #=================================================
 
-# The install dir only holds the remark42 binary (re-downloaded from the
-# manifest on restore) — no need to store 30+ MB of it in every archive.
+# Install dir holds only the binary (re-downloaded from manifest sources on restore) — no need to archive 30+ MB each time.
 ynh_backup "$data_dir"
 
 #=================================================
