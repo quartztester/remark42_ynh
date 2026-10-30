@@ -7,7 +7,7 @@ name = "Remark42"
 description.en = "Comment system to embed on any website"
 description.fr = "Système de commentaires à intégrer à n'importe quel site"
 
-version = "1.17.1~ynh1"
+version = "1.18.0~ynh1"
 
 maintainers = ["quartztester"]
 
@@ -109,16 +109,16 @@ ram.runtime = "100M"
     arm64 = "^remark42\\.linux-arm64\\.tar\\.gz$"
 
     [resources.sources.main.amd64]
-    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-amd64.tar.gz"
-    sha256 = "434e64fc0903d028e8506c4047e99260446d6a51573c8b2dc2492e43558519d4"
+    url = "https://github.com/umputun/remark42/releases/download/v1.18.0/remark42.linux-amd64.tar.gz"
+    sha256 = "0f7fa39f30e30123bbbeaf2956fc335ea13d7b5d6799cee20060a303be730d9a"
 
     [resources.sources.main.i386]
-    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-386.tar.gz"
-    sha256 = "662d5e282d622ae5125625f5c9d105f313006867fb350ccad5f881123ad87498"
+    url = "https://github.com/umputun/remark42/releases/download/v1.18.0/remark42.linux-386.tar.gz"
+    sha256 = "8f56d8d9337c21e44cb0ae3b77fde537c912f972bbb3b6d65f2c7b3b607506e5"
 
     [resources.sources.main.arm64]
-    url = "https://github.com/umputun/remark42/releases/download/v1.17.1/remark42.linux-arm64.tar.gz"
-    sha256 = "214c08edc22ca2c68ba3c379016c05f0fea2c116a307fea8170273b2986bf840"
+    url = "https://github.com/umputun/remark42/releases/download/v1.18.0/remark42.linux-arm64.tar.gz"
+    sha256 = "8e1d25d2d3bcd4ba14c35f272b27f0dc5009f16e3660cbc69c81029a81945d85"
 
     [resources.system_user]
     allow_email = true
