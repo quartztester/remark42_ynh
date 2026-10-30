@@ -4,8 +4,8 @@ packaging_format = 2
 
 id = "remark42"
 name = "Remark42"
-description.en = "Self-hosted comment system to embed on any website"
-description.fr = "Système de commentaires auto-hébergé à intégrer à n'importe quel site"
+description.en = "Comment system to embed on any website"
+description.fr = "Système de commentaires à intégrer à n'importe quel site"
 
 version = "1.17.1~ynh1"
 
