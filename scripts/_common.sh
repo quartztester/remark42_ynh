@@ -5,9 +5,7 @@
 #=================================================
 
 render_env_file() {
-    # Re-render /etc/$app/env from settings, then drop lines whose value is
-    # empty so that unset options don't override remark42's own defaults
-    # (an empty AUTH_GITHUB_CID= would otherwise be seen as "configured").
+    # drop empty lines: unset options must not override remark42's defaults (AUTH_GITHUB_CID= reads as configured)
     auth_anon_value="false"
     [ "${auth_anon:-false}" = "true" ] && auth_anon_value="true"
 
@@ -24,9 +22,8 @@ prepare_data_dirs() {
     chmod 750 "$data_dir"
 }
 
-# The YunoHost admin logs in through remark42's "email magic link" provider;
-# their remark42 user id is email_<sha1(email)> (see go-pkgz/auth verify
-# provider), which we pre-register in ADMIN_SHARED_ID.
+# Admin logs in via remark42's email magic link; their remark42 id is
+# email_<sha1(email)> (go-pkgz/auth verify provider), pre-registered in ADMIN_SHARED_ID.
 compute_admin_settings() {
     if [ -z "${admin:-}" ]; then
         admin=$(ynh_app_setting_get --key=admin)
@@ -35,9 +32,8 @@ compute_admin_settings() {
     admin_id="email_$(printf '%s' "$admin_email" | sha1sum | cut -d' ' -f1)"
 }
 
-# Outbound mail authenticates as the app's own sender (resources.system_user
-# allow_email): login remark42 / password $mail_pwd on localhost:25, From
-# remark42@$domain unless the admin picked another address.
+# SMTP as the app's own sender (system_user allow_email): login remark42 /
+# $mail_pwd on localhost:25, From remark42@$domain unless admin chose another.
 compute_mail_settings() {
     mail_pwd="${mail_pwd:-$(ynh_app_setting_get --key=mail_pwd)}"
     mail_from="${mail_from:-}"
