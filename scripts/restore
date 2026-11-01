@@ -30,7 +30,7 @@ ynh_script_progression "Restoring system configurations related to $app..."
 
 # Re-render env from settings (the archived file may belong to another
 # domain; settings are the single source of truth for secret/admin/oauth).
-ynh_app_setting_set_default --key=auth_anon --value="yes"
+ynh_app_setting_set_default --key=auth_anon --value="true"
 ynh_app_setting_set_default --key=github_cid --value=""
 ynh_app_setting_set_default --key=github_csec --value=""
 ynh_app_setting_set_default --key=google_cid --value=""

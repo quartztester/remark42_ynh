@@ -9,7 +9,7 @@ render_env_file() {
     # empty so that unset options don't override remark42's own defaults
     # (an empty AUTH_GITHUB_CID= would otherwise be seen as "configured").
     auth_anon_value="false"
-    [ "${auth_anon:-no}" = "yes" ] && auth_anon_value="true"
+    [ "${auth_anon:-false}" = "true" ] && auth_anon_value="true"
 
     mkdir -p "/etc/$app"
     ynh_config_add --template="env" --destination="/etc/$app/env"

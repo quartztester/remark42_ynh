@@ -7,7 +7,7 @@ name = "Remark42"
 description.en = "Self-hosted comment system to embed on any website"
 description.fr = "Système de commentaires auto-hébergé à intégrer à n'importe quel site"
 
-version = "1.17.1~ynh1"
+version = "1.17.1~ynh2"
 
 maintainers = ["quartztester"]
 
@@ -43,7 +43,6 @@ ram.runtime = "100M"
     # its (sub)domain. The question is kept hidden and locked to "/".
     type = "path"
     default = "/"
-    ask.en = "Installation path (Remark42 requires the root of the domain)"
     help.en = "Remark42 embeds a comment widget on external sites and its UI hardcodes absolute /api/v1 paths, so it can only be installed at the root of a (sub)domain."
 
     [install.init_main_permission]
@@ -67,9 +66,8 @@ ram.runtime = "100M"
     [install.auth_anon]
     ask.en = "Allow anonymous (nickname-only) commenting"
     help.en = "Visitors can comment with just a nickname, without any account. Disable to require login via email link or an OAuth provider."
-    type = "select"
-    choices = [ "yes", "no" ]
-    default = "yes"
+    type = "boolean"
+    default = true
 
     [install.github_cid]
     optional = true

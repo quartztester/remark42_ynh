@@ -25,7 +25,7 @@ if [ -z "$secret" ]; then
     ynh_app_setting_set --key=secret --value="$secret"
 fi
 
-ynh_app_setting_set_default --key=auth_anon --value="yes"
+ynh_app_setting_set_default --key=auth_anon --value="true"
 ynh_app_setting_set_default --key=github_cid --value=""
 ynh_app_setting_set_default --key=github_csec --value=""
 ynh_app_setting_set_default --key=google_cid --value=""
