@@ -10,6 +10,9 @@ render_env_file() {
     [ "${auth_anon:-false}" = "true" ] && auth_anon_value="true"
 
     mkdir -p "/etc/$app"
+    # always render fresh: a leftover env file from an older render triggers
+    # ynh_config_add's "manually modified" false alarm on upgrade/restore
+    rm -f "/etc/$app/env"
     ynh_config_add --template="env" --destination="/etc/$app/env"
     sed -i -E '/^[A-Z0-9_]+=$/d' "/etc/$app/env"
     chown root:"$app" "/etc/$app/env"
