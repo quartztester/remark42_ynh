@@ -60,6 +60,12 @@ ynh_script_progression "Adding system configurations related to $app..."
 ynh_config_add_nginx
 ynh_config_add_systemd
 
+# unit's StandardOutput targets this file; systemd fails with 209/STDOUT
+# if it (or its dir) is missing
+mkdir -p "/var/log/$app"
+touch "/var/log/$app/$app.log"
+chown -R "$app:$app" "/var/log/$app"
+
 yunohost service add "$app" --description="Remark42 comment system" --log="/var/log/$app/$app.log"
 
 ynh_config_add_logrotate

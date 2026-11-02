@@ -44,6 +44,13 @@ ynh_restore "/etc/systemd/system/$app.service"
 systemctl enable "$app.service" --quiet
 ynh_restore "/etc/logrotate.d/$app"
 
+# Backups exclude /var/log — but the unit's StandardOutput targets
+# /var/log/$app/$app.log, and systemd fails the service with 209/STDOUT
+# if that file is missing. Recreate it before starting.
+mkdir -p "/var/log/$app"
+touch "/var/log/$app/$app.log"
+chown -R "$app:$app" "/var/log/$app"
+
 yunohost service add "$app" --description="Remark42 comment system" --log="/var/log/$app/$app.log"
 
 #=================================================
